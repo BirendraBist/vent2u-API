@@ -1,34 +1,31 @@
 module.exports = (sequelize, Sequelize) => {
-    const Room = sequelize.define("room", {
+  const Room = sequelize.define("room", {
+    id: {
+      primaryKey: true,
+      autoIncrement: true,
+      type: Sequelize.INTEGER,
+    },
+    roomName: {
+      type: Sequelize.STRING,
+      allowNull: false, 
+    },
 
-        id:{ 
-            type:Sequelize.INTEGER,
-            primaryKey:true,
-            autoincrement:true
-      
-          },
-          roomName: {
-            type: Sequelize.STRING,
-            required:true
-          }
+    // id: {
+    //     primaryKey: true,
+    //     autoIncrement: true,
+    //     type: Sequelize.INTEGER
+    // },
+    // user_id: {
+    //     type: Sequelize.INTEGER,
+    //     references: {
+    //         model: 'users',
+    //         key: 'id',
+    //     }
+    // },
+    // roomName: {
+    //     type: Sequelize.STRING
+    // },
+  });
 
-        // id: {
-        //     primaryKey: true,
-        //     autoIncrement: true,
-        //     type: Sequelize.INTEGER
-        // },
-        // user_id: {
-        //     type: Sequelize.INTEGER,
-        //     references: {
-        //         model: 'users',
-        //         key: 'id',
-        //     }
-        // },
-        // roomName: {
-        //     type: Sequelize.STRING
-        // },
-        
-    });
-
-    return Room;
+  return Room;
 };
