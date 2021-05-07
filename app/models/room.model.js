@@ -7,10 +7,21 @@ module.exports = (sequelize, Sequelize) => {
     },
     roomName: {
       type: Sequelize.STRING,
-      allowNull: false, 
+      allowNull: false,
     },
+     userId: {
+        type: Sequelize.INTEGER,
+        references: {
+            model: 'users',
+            key: 'id',
+            allowNull:false,
+        }
+    },
+  });
 
-    // id: {
+  return Room;
+};
+// id: {
     //     primaryKey: true,
     //     autoIncrement: true,
     //     type: Sequelize.INTEGER
@@ -25,7 +36,3 @@ module.exports = (sequelize, Sequelize) => {
     // roomName: {
     //     type: Sequelize.STRING
     // },
-  });
-
-  return Room;
-};

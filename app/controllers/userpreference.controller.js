@@ -1,11 +1,11 @@
 const { response } = require("express");
 const db = require("../models");
-const User = db.user;
+const Userpreference = db.userpreference;
 const Op = db.Sequelize.Op;
 
 // Get All the room
 exports.findAll = (req, res) => {
-  User.findAll()
+    Userpreference.findAll()
     .then((data) => {
       res.send(data);
     })
@@ -19,7 +19,7 @@ exports.findAll = (req, res) => {
 exports.findOne = (req, res) => {
   const id = req.params.id;
 
-  User.findByPk(id)
+  Userpreference.findByPk(id)
     .then((data) => {
       res.send(data);
     })
@@ -33,7 +33,7 @@ exports.findOne = (req, res) => {
 //create
 exports.create = (req, res) => {
   const body = req.body;
-  const structValid = !body.id || body.userName|| body.password;
+  const structValid = !body.id || body.temperature|| body.humidity || body.airQuality || body.userId|| body.zoneId;
 
   if (!structValid) {
     res.status(400).send({
@@ -42,13 +42,16 @@ exports.create = (req, res) => {
     return;
   }
 
-  const user = {
+  const userpreference = {
     id: body.id,
-    userName: body.userName,
-    password:body.password
+    temperature: body.temperature,
+    humidity:body.humidity,
+    airQuality:body.airQuality,
+    userId:body.userId,
+    zoneId:body.zoneId
   };
 
-  User.create(user)
+  Userpreference.create(userpreference)
     .then((data) => {
       res.status(201).send(data);
     })
@@ -64,7 +67,7 @@ exports.create = (req, res) => {
 exports.delete = (req, res) => {
   const id = req.params.id;
 
-  User.destroy({
+  Userpreference.destroy({
     where: { id: id },
   })
     .then((result) => {
@@ -86,7 +89,7 @@ exports.delete = (req, res) => {
 exports.update = (req, res) => {
   const id = req.params.id;
 
-  User.update(req.body, {
+  Userpreference.update(req.body, {
     where: { id: id },
   })
     .then((num) => {
@@ -110,7 +113,7 @@ exports.update = (req, res) => {
 // Delete all the rooms
 
 exports.deleteAll = (req, res) => {
-  User.destroy({
+    Userpreference.destroy({
     where: {},
     truncate: false,
   })

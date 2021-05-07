@@ -33,7 +33,7 @@ exports.findOne = (req, res) => {
 //create
 exports.create = (req, res) => {
   const body = req.body;
-  const structValid = !body.id || body.roomName;
+  const structValid = !body.id || body.roomName || body.userId;
 
   if (!structValid) {
     res.status(400).send({
@@ -45,6 +45,7 @@ exports.create = (req, res) => {
   const room = {
     id: body.id,
     roomName: body.roomName,
+    userId: body.userId,
   };
 
   Room.create(room)

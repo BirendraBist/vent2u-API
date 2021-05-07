@@ -5,7 +5,7 @@ module.exports = (sequelize, Sequelize) => {
         autoIncrement: true,
         type: Sequelize.INTEGER,
       },
-      room_id: {
+      roomId: {
         type: Sequelize.INTEGER,
         allowNull:false,
         references: {

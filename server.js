@@ -24,8 +24,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.get("/", (req, res) => {
   res.json({ message: "Welcome to mental-shower application." });
 });
-require("./app/routes/room.routes")(app);
+ require("./app/routes/room.routes")(app);
 require("./app/routes/zone.routes")(app);
+require("./app/routes/user.routes")(app);
+require("./app/routes/userpreference.routes")(app);
 
 
 // set port, listen for requests
