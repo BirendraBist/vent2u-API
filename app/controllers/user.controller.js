@@ -3,7 +3,7 @@ const db = require("../models");
 const User = db.user;
 const Op = db.Sequelize.Op;
 
-// Get All the room
+// Get All the user
 exports.findAll = (req, res) => {
   User.findAll()
     .then((data) => {
@@ -11,11 +11,11 @@ exports.findAll = (req, res) => {
     })
     .catch((err) => {
       res.status(500).send({
-        message: err.message || "Some error occurred while retrieving room.",
+        message: err.message || "Some error occurred while retrieving user.",
       });
     });
 };
-// Find a room with an id
+// Find a user with an id
 exports.findOne = (req, res) => {
   const id = req.params.id;
 
@@ -25,7 +25,7 @@ exports.findOne = (req, res) => {
     })
     .catch((err) => {
       res.status(500).send({
-        message: "Error retrieving Room with id=" + id,
+        message: "Error retrieving user with id=" + id,
       });
     });
 };
@@ -37,7 +37,7 @@ exports.create = (req, res) => {
 
   if (!structValid) {
     res.status(400).send({
-      message: "Must contain: id, roomName",
+      message: "Must contain: id, userName",
     });
     return;
   }
@@ -54,7 +54,7 @@ exports.create = (req, res) => {
     })
     .catch((err) => {
       res.status(500).send({
-        message: err.message || "Some error occurred while creating room.",
+        message: err.message || "Some error occurred while creating user.",
       });
     });
 };
@@ -70,19 +70,19 @@ exports.delete = (req, res) => {
     .then((result) => {
       if (result === 1) {
         res.send({
-          message: "Room is deleted successfully!",
+          message: "user is deleted successfully!",
         });
       }
-      res.status(404).send({ message: "Room does not exists." });
+      res.status(404).send({ message: "user does not exists." });
     })
     .catch((err) => {
       res.status(500).send({
-        message: err.message || "Some error occurred while removing Room.",
+        message: err.message || "Some error occurred while removing user.",
       });
     });
 };
 
-// Update a Room by the id in the request
+// Update a user by the id in the request
 exports.update = (req, res) => {
   const id = req.params.id;
 
@@ -92,17 +92,17 @@ exports.update = (req, res) => {
     .then((num) => {
       if (num == 1) {
         res.send({
-          message: "Room was updated successfully.",
+          message: "user was updated successfully.",
         });
       } else {
         res.send({
-          message: `Cannot update Room with id=${id}. Maybe room was not found or req.body is empty!`,
+          message: `Cannot update user with id=${id}. Maybe user was not found or req.body is empty!`,
         });
       }
     })
     .catch((err) => {
       res.status(500).send({
-        message: "Error updating Room with id=" + id,
+        message: "Error updating user with id=" + id,
       });
     });
 };
@@ -115,11 +115,11 @@ exports.deleteAll = (req, res) => {
     truncate: false,
   })
     .then((nums) => {
-      res.send({ message: `${nums} Rooms are deleted successfully!` });
+      res.send({ message: `${nums} users are deleted successfully!` });
     })
     .catch((err) => {
       res.status(500).send({
-        message: err.message || "Some error occurred while removing all Rooms.",
+        message: err.message || "Some error occurred while removing all users.",
       });
     });
 };

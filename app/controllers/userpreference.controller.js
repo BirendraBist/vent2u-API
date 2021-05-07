@@ -3,7 +3,7 @@ const db = require("../models");
 const Userpreference = db.userpreference;
 const Op = db.Sequelize.Op;
 
-// Get All the room
+// Get All the userpreference
 exports.findAll = (req, res) => {
     Userpreference.findAll()
     .then((data) => {
@@ -11,11 +11,11 @@ exports.findAll = (req, res) => {
     })
     .catch((err) => {
       res.status(500).send({
-        message: err.message || "Some error occurred while retrieving room.",
+        message: err.message || "Some error occurred while retrieving userpreference.",
       });
     });
 };
-// Find a room with an id
+// Find a userpreference with an id
 exports.findOne = (req, res) => {
   const id = req.params.id;
 
@@ -25,19 +25,19 @@ exports.findOne = (req, res) => {
     })
     .catch((err) => {
       res.status(500).send({
-        message: "Error retrieving Room with id=" + id,
+        message: "Error retrieving userpreference with id=" + id,
       });
     });
 };
 
-//create
+//create userpreference
 exports.create = (req, res) => {
   const body = req.body;
   const structValid = !body.id || body.temperature|| body.humidity || body.airQuality || body.userId|| body.zoneId;
 
   if (!structValid) {
     res.status(400).send({
-      message: "Must contain: id, roomName",
+      message: "Must contain: id, userpreferenceName",
     });
     return;
   }
@@ -57,12 +57,12 @@ exports.create = (req, res) => {
     })
     .catch((err) => {
       res.status(500).send({
-        message: err.message || "Some error occurred while creating room.",
+        message: err.message || "Some error occurred while creating userpreference.",
       });
     });
 };
 
-//Delete
+//Delete userpreference
 
 exports.delete = (req, res) => {
   const id = req.params.id;
@@ -73,19 +73,19 @@ exports.delete = (req, res) => {
     .then((result) => {
       if (result === 1) {
         res.send({
-          message: "Room is deleted successfully!",
+          message: "userpreference is deleted successfully!",
         });
       }
-      res.status(404).send({ message: "Room does not exists." });
+      res.status(404).send({ message: "userpreference does not exists." });
     })
     .catch((err) => {
       res.status(500).send({
-        message: err.message || "Some error occurred while removing Room.",
+        message: err.message || "Some error occurred while removing userpreference.",
       });
     });
 };
 
-// Update a Room by the id in the request
+// Update a userpreference by the id in the request
 exports.update = (req, res) => {
   const id = req.params.id;
 
@@ -95,22 +95,22 @@ exports.update = (req, res) => {
     .then((num) => {
       if (num == 1) {
         res.send({
-          message: "Room was updated successfully.",
+          message: "userpreference was updated successfully.",
         });
       } else {
         res.send({
-          message: `Cannot update Room with id=${id}. Maybe room was not found or req.body is empty!`,
+          message: `Cannot update userpreference with id=${id}. Maybe userpreference was not found or req.body is empty!`,
         });
       }
     })
     .catch((err) => {
       res.status(500).send({
-        message: "Error updating Room with id=" + id,
+        message: "Error updating userpreference with id=" + id,
       });
     });
 };
 
-// Delete all the rooms
+// Delete all the userpreference
 
 exports.deleteAll = (req, res) => {
     Userpreference.destroy({
@@ -118,11 +118,11 @@ exports.deleteAll = (req, res) => {
     truncate: false,
   })
     .then((nums) => {
-      res.send({ message: `${nums} Rooms are deleted successfully!` });
+      res.send({ message: `${nums} userpreference are deleted successfully!` });
     })
     .catch((err) => {
       res.status(500).send({
-        message: err.message || "Some error occurred while removing all Rooms.",
+        message: err.message || "Some error occurred while removing all userpreferences.",
       });
     });
 };
