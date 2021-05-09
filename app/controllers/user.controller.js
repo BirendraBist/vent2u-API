@@ -107,7 +107,7 @@ exports.update = (req, res) => {
     });
 };
 
-// Delete all the rooms
+// Delete all the User
 
 exports.deleteAll = (req, res) => {
   User.destroy({
@@ -115,11 +115,14 @@ exports.deleteAll = (req, res) => {
     truncate: false,
   })
     .then((nums) => {
-      res.send({ message: `${nums} users are deleted successfully!` });
+      res.send({ message: `${nums} Users are deleted successfully!` });
     })
     .catch((err) => {
       res.status(500).send({
-        message: err.message || "Some error occurred while removing all users.",
+        message: err.message || "Some error occurred while removing all Users.",
       });
     });
 };
+//
+
+
