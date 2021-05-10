@@ -9,6 +9,6 @@ module.exports = (app) => {
 
   router.get("/:id", user.findOne);
   router.put("/:id", user.update);
-
+  router.post("/login", user.authenticate)
   app.use("/api/user", router);
 };
