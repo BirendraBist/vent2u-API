@@ -4,25 +4,29 @@ module.exports = (sequelize, Sequelize) => {
       primaryKey: true,
       autoIncrement: true,
       type: Sequelize.INTEGER,
+      
     },
-    temperature: {
-      type: Sequelize.BOOLEAN,
-      allowNull: false,
+    cold: {
+      type: Sequelize.INTEGER,
     },
-    humidity: {
-      type: Sequelize.BOOLEAN,
-      allowNull: false,
+    warm: {
+      type: Sequelize.INTEGER,
     },
-    airQuality: {
-      type: Sequelize.BOOLEAN,
-      allowNull: false,
+    dry: {
+      type: Sequelize.INTEGER,
+    },
+    moist: {
+      type: Sequelize.INTEGER,
+    },
+    airFlow: {
+      type: Sequelize.INTEGER,
     },
     userId: {
       type: Sequelize.INTEGER,
       references: {
         model: "users",
         key: "id",
-        allowNull: false
+        allowNull: false,
       },
     },
     zoneId: {
@@ -30,7 +34,7 @@ module.exports = (sequelize, Sequelize) => {
       references: {
         model: "zones",
         key: "id",
-        allowNull: false
+        allowNull: false,
       },
     },
   });

@@ -16,7 +16,7 @@ module.exports = (sequelize, Sequelize) => {
       
       zoneName: {
         type: Sequelize.STRING,
-        allowNull:false
+        allowNull:false,
       }
     });
   

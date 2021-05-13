@@ -14,7 +14,7 @@ module.exports = (sequelize, Sequelize) => {
         references: {
             model: 'users',
             key: 'id',
-            allowNull:false
+            allowNull:false,
         }
     },
   });
