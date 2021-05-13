@@ -4,41 +4,44 @@ module.exports = (sequelize, Sequelize) => {
       primaryKey: true,
       autoIncrement: true,
       type: Sequelize.INTEGER,
-      
     },
     cold: {
       type: Sequelize.INTEGER,
+      allowNull: true,
     },
     warm: {
       type: Sequelize.INTEGER,
+      allowNull: true,
     },
     dry: {
       type: Sequelize.INTEGER,
+      allowNull: true,
     },
     moist: {
       type: Sequelize.INTEGER,
+      allowNull: true,
     },
     airFlow: {
       type: Sequelize.INTEGER,
+      allowNull: false,
     },
     userId: {
       type: Sequelize.INTEGER,
+      allowNull: false,
       references: {
         model: "users",
         key: "id",
-        allowNull: false,
       },
     },
     zoneId: {
       type: Sequelize.INTEGER,
+      allowNull: false,
       references: {
         model: "zones",
         key: "id",
-        allowNull: false,
       },
     },
   });
-
   return Userprefence;
 };
 // id: {

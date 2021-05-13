@@ -9,30 +9,30 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.STRING,
       allowNull: false,
     },
-     userId: {
-        type: Sequelize.INTEGER,
-        references: {
-            model: 'users',
-            key: 'id',
-            allowNull:false,
-        }
+    userId: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+      references: {
+        model: "users",
+        key: "id",
+      },
     },
   });
 
   return Room;
 };
 // id: {
-    //     primaryKey: true,
-    //     autoIncrement: true,
-    //     type: Sequelize.INTEGER
-    // },
-    // user_id: {
-    //     type: Sequelize.INTEGER,
-    //     references: {
-    //         model: 'users',
-    //         key: 'id',
-    //     }
-    // },
-    // roomName: {
-    //     type: Sequelize.STRING
-    // },
+//     primaryKey: true,
+//     autoIncrement: true,
+//     type: Sequelize.INTEGER
+// },
+// user_id: {
+//     type: Sequelize.INTEGER,
+//     references: {
+//         model: 'users',
+//         key: 'id',
+//     }
+// },
+// roomName: {
+//     type: Sequelize.STRING
+// },

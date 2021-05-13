@@ -5,13 +5,14 @@ const Op = db.Sequelize.Op;
 
 // Get All the userpreference
 exports.findAll = (req, res) => {
-    Userpreference.findAll()
+  Userpreference.findAll()
     .then((data) => {
       res.send(data);
     })
     .catch((err) => {
       res.status(500).send({
-        message: err.message || "Some error occurred while retrieving userpreference.",
+        message:
+          err.message || "Some error occurred while retrieving userpreference.",
       });
     });
 };
@@ -33,7 +34,15 @@ exports.findOne = (req, res) => {
 //create userpreference
 exports.create = (req, res) => {
   const body = req.body;
-  const structValid = !body.id || body.temperature|| body.humidity || body.airQuality || body.userId|| body.zoneId;
+  const structValid =
+    !body.id ||
+    body.cold ||
+    body.warm ||
+    body.airFlow ||
+    body.dry ||
+    body.moist ||
+    body.userId ||
+    body.zoneId;
 
   if (!structValid) {
     res.status(400).send({
@@ -44,11 +53,13 @@ exports.create = (req, res) => {
 
   const userpreference = {
     id: body.id,
-    temperature: body.temperature,
-    humidity:body.humidity,
-    airQuality:body.airQuality,
-    userId:body.userId,
-    zoneId:body.zoneId
+    cold: body.cold,
+    warm: body.warm,
+    airFlow: body.airFlow,
+    dry: body.dry,
+    moist: body.moist,
+    userId: body.userId,
+    zoneId: body.zoneId,
   };
 
   Userpreference.create(userpreference)
@@ -57,7 +68,8 @@ exports.create = (req, res) => {
     })
     .catch((err) => {
       res.status(500).send({
-        message: err.message || "Some error occurred while creating userpreference.",
+        message:
+          err.message || "Some error occurred while creating userpreference.",
       });
     });
 };
@@ -80,7 +92,8 @@ exports.delete = (req, res) => {
     })
     .catch((err) => {
       res.status(500).send({
-        message: err.message || "Some error occurred while removing userpreference.",
+        message:
+          err.message || "Some error occurred while removing userpreference.",
       });
     });
 };
@@ -113,7 +126,7 @@ exports.update = (req, res) => {
 // Delete all the userpreference
 
 exports.deleteAll = (req, res) => {
-    Userpreference.destroy({
+  Userpreference.destroy({
     where: {},
     truncate: false,
   })
@@ -122,7 +135,9 @@ exports.deleteAll = (req, res) => {
     })
     .catch((err) => {
       res.status(500).send({
-        message: err.message || "Some error occurred while removing all userpreferences.",
+        message:
+          err.message ||
+          "Some error occurred while removing all userpreferences.",
       });
     });
 };
