@@ -3,13 +3,16 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 
 const app = express();
-app.use(cors());
+// for local connection if you work on th local connection just uncomment this line 
+//app.use(cors());
 
-// var corsOptions = {
-//   origin: "*"
-// };
+//for the remote connection
+var corsOptions = {
+  origin: "*"
+};
+ // for remote connection if you make local connection just comment this line 
+app.use(cors(corsOptions));
 
-//app.use(cors(corsOptions));
 const db = require("./app/models");
 
 db.sequelize.sync();
