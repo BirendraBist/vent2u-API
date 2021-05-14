@@ -1,8 +1,6 @@
-const { response } = require("express");
 const db = require("../models");
 const User = db.user;
-const Op = db.Sequelize.Op;
-const authService = require("../utils/jwtAuth.js")
+const authService = require("../utils/jwtAuth.js");
 const jwt = require("jsonwebtoken");
 const md5 = require("md5");
 
@@ -36,7 +34,7 @@ exports.findOne = (req, res) => {
 //create
 exports.create = (req, res) => {
   const body = req.body;
-  const structValid = !body.id || body.userName|| body.password;
+  const structValid = !body.id || !body.userName || !body.password;
 
   if (!structValid) {
     res.status(400).send({
@@ -46,14 +44,14 @@ exports.create = (req, res) => {
   }
 
   const user = {
-    id: body.id,
+    id: req.body.id,
     userName: body.userName,
-    password:body.password
+    password: md5(req.body.password + process.env.HASH_SALT),
   };
 
   User.create(user)
     .then((data) => {
-      res.status(201).send(data);
+      res.status(200).send(data);
     })
     .catch((err) => {
       res.status(500).send({
@@ -129,23 +127,20 @@ exports.deleteAll = (req, res) => {
 //
 
 exports.authenticate = (req, res) => {
-  const password = md5(req.body.password + process.env.HASH_SALT)
+  const password = md5(req.body.password + process.env.HASH_SALT);
   User.findOne({ where: { userName: req.body.userName, password: password } })
-    .then(data => {
+    .then((data) => {
       if (!data) {
-        res.status(404).send({ message: "Incorrect username or password" })
-        return
+        res.status(404).send({ message: "Incorrect username or password" });
+        return;
       }
       const token = authService.createToken(data.userName, data.id);
       res.send({ token });
     })
-    .catch(err => {
-      console.log(err)
+    .catch((err) => {
+      console.log(err);
       res.status(500).send({
-        message: "Error on authenticating user."
+        message: "Error on authenticating user.",
       });
     });
 };
-
-
-

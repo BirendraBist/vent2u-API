@@ -7,21 +7,20 @@ module.exports = (sequelize, Sequelize) => {
     },
     userName: {
       type: Sequelize.STRING,
-      allowNull:false,
-
+      allowNull: false,
     },
     password: {
-        type: Sequelize.STRING,
-        allowNull:false,
-    }
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
   });
 
   return User;
 };
 // room_id: {
-    //   type: Sequelize.INTEGER,
-    //   references: {
-    //     model: "users",
-    //     key: "id",
-    //   },
-    // },
+//   type: Sequelize.INTEGER,
+//   references: {
+//     model: "users",
+//     key: "id",
+//   },
+// },
