@@ -3,14 +3,14 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 
 const app = express();
-// for local connection if you work on th local connection just uncomment this line 
+// for local connection if you work on th local connection just uncomment this line
 //app.use(cors());
 
 //for the remote connection
 var corsOptions = {
-  origin: "*"
+  origin: "*",
 };
- // for remote connection if you make local connection just comment this line 
+// for remote connection if you make local connection just comment this line
 app.use(cors(corsOptions));
 
 const db = require("./app/models");
@@ -27,11 +27,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.get("/", (req, res) => {
   res.json({ message: "Welcome to mental-shower application." });
 });
- require("./app/routes/room.routes")(app);
+require("./app/routes/room.routes")(app);
 require("./app/routes/zone.routes")(app);
 require("./app/routes/user.routes")(app);
 require("./app/routes/userpreference.routes")(app);
-
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8081;
