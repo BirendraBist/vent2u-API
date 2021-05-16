@@ -1,7 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-
 const app = express();
 // for local connection if you work on th local connection just uncomment this line
 //app.use(cors());
