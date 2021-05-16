@@ -1,10 +1,9 @@
+require("dotenv").config();
 const db = require("../models");
 const User = db.user;
-const authService = require("../utils/jwtAuth.js");
+const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const md5 = require("md5");
 
-// Get All the user
 exports.findAll = (req, res) => {
   User.findAll()
     .then((data) => {
@@ -16,131 +15,113 @@ exports.findAll = (req, res) => {
       });
     });
 };
-// Find a user with an id
-exports.findOne = (req, res) => {
-  const id = req.params.id;
 
-  User.findByPk(id)
-    .then((data) => {
-      res.send(data);
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message: "Error retrieving user with id=" + id,
-      });
-    });
-};
-
-//create
 exports.create = (req, res) => {
-  const body = req.body;
-  const structValid = !body.id || !body.userName || !body.password;
-
-  if (!structValid) {
+  if (!req.body.userName || !req.body.password) {
     res.status(400).send({
-      message: "Must contain: id, userName",
+      message: "Content can not be empty!",
     });
     return;
   }
-
   const user = {
-    id: req.body.id,
-    userName: body.userName,
-    password: md5(req.body.password + process.env.HASH_SALT),
+    userName: req.body.userName,
+    password: req.body.password,
   };
-
-  User.create(user)
-    .then((data) => {
-      res.status(200).send(data);
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message: err.message || "Some error occurred while creating user.",
-      });
-    });
-};
-
-//Delete
-
-exports.delete = (req, res) => {
-  const id = req.params.id;
-
-  User.destroy({
-    where: { id: id },
-  })
-    .then((result) => {
-      if (result === 1) {
-        res.send({
-          message: "user is deleted successfully!",
-        });
+  bcrypt.genSalt(10, function (err, salt) {
+    bcrypt.hash(user.password, salt, function (err, hash) {
+      if (err) {
+        console.log(err);
       }
-      res.status(404).send({ message: "user does not exists." });
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message: err.message || "Some error occurred while removing user.",
-      });
+      user.password = hash;
+      User.create(user)
+        .then((data) => {
+          res.send(data);
+        })
+        .catch((err) => {
+          res.status(500).send({
+            message:
+              err.message || "Some error occurred while creating the settings.",
+          });
+        });
     });
+  });
 };
 
-// Update a user by the id in the request
-exports.update = (req, res) => {
-  const id = req.params.id;
-
-  User.update(req.body, {
-    where: { id: id },
-  })
-    .then((num) => {
-      if (num == 1) {
-        res.send({
-          message: "user was updated successfully.",
-        });
+exports.login = (req, res) => {
+  User.findOne({ where: { userName: req.body.userName } })
+    .then((user) => {
+      if (user === null) {
+        res.status(401).json({ message: "Invalid UserName" });
       } else {
-        res.send({
-          message: `Cannot update user with id=${id}. Maybe user was not found or req.body is empty!`,
-        });
+        bcrypt.compare(
+          req.body.password,
+          user.password,
+          function (err, results) {
+            if (results) {
+              const token = jwt.sign(
+                {
+                  userName: user.userName,
+                },
+                process.env.ACCESS_TOKEN_SECRET,
+                { expiresIn: "86000s" },
+                function (err, token) {
+                  res.status(200).json({
+                    message: "Authencation is successful!!",
+                    token: token,
+                  });
+                }
+              );
+            } else {
+              res.status(401).json({
+                message: "invalid Credential  !",
+              });
+            }
+          }
+        );
       }
     })
-    .catch((err) => {
-      res.status(500).send({
-        message: "Error updating user with id=" + id,
+    .catch((error) => {
+      res.status(500).json({
+        message: "Something went wrong!",
       });
     });
 };
 
-// Delete all the User
-
-exports.deleteAll = (req, res) => {
-  User.destroy({
-    where: {},
-    truncate: false,
-  })
-    .then((nums) => {
-      res.send({ message: `${nums} Users are deleted successfully!` });
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message: err.message || "Some error occurred while removing all Users.",
-      });
-    });
-};
-//
-
-exports.authenticate = (req, res) => {
-  const password = md5(req.body.password + process.env.HASH_SALT);
-  User.findOne({ where: { userName: req.body.userName, password: password } })
-    .then((data) => {
-      if (!data) {
-        res.status(404).send({ message: "Incorrect username or password" });
-        return;
-      }
-      const token = authService.createToken(data.userName, data.id);
-      res.send({ token });
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(500).send({
-        message: "Error on authenticating user.",
-      });
-    });
-};
+// exports.login = (req, res) => {
+//   User.findOne({ where: { userName: req.body.userName } })
+//     .then((user) => {
+//       if (user === null) {
+//         res.status(401).json({ message: "Invalid UserName" });
+//       } else {
+//         bcrypt.compare(
+//           req.body.password,
+//           user.password,
+//           function (err, results) {
+//             if (results) {
+//               const token = jwt.sign(
+//                 {
+//                   userName: user.userName,
+//                 },
+//                 "secret",
+//                 function (err, token) {
+//                   res.status(200).json({
+//                     message: "Authencation is successful!!",
+//                     token: token,
+//                   });
+//                 }
+//               );
+//             } else {
+//               res.status(401).json({
+//                 message: "invalid Credential  !",
+//               });
+//             }
+//           }
+//         );
+//       }
+//     })
+//     .catch((error) => {
+//       res.status(500).json({
+//         message: "Something went wrong!",
+//       });
+//     });
+// };
