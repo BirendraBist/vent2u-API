@@ -63,7 +63,7 @@ exports.login = (req, res) => {
                   userName: user.userName,
                 },
                 process.env.ACCESS_TOKEN_SECRET,
-                { expiresIn: "86000s" },
+                { expiresIn: "6000s" },
                 function (err, token) {
                   res.status(200).json({
                     message: "Authencation is successful!!",
