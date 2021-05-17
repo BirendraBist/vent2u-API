@@ -25,14 +25,5 @@
     "mysql2": "^2.2.5",
     "nodemon": "^2.0.7",
     "sequelize": "^6.6.2"
-  },
-  "devDependencies": {},
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/BirendraBist/vent2u-API.git"
-  },
-  "bugs": {
-    "url": "https://github.com/BirendraBist/vent2u-API/issues"
-  },
-  "homepage": "https://github.com/BirendraBist/vent2u-API#readme"
+  }
 }
