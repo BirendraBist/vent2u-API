@@ -9,7 +9,7 @@ const app = express();
 var corsOptions = {
   origin: "*",
 };
-/////for remote connection if you make local connection just comment this line
+///for remote connection if you make local connection just comment this line
 app.use(cors(corsOptions));
 
 const db = require("./app/models");

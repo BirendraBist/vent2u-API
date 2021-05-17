@@ -1,5 +1,5 @@
 const Sequelize = require("sequelize");
-// for the development connection
+//for the development connection
 // const sequelize = new Sequelize("vent2u", "root", "root", {
 //   host: "localhost",
 //   dialect: "mysql",
